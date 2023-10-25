@@ -2,13 +2,11 @@ import Header from "../layout/Header";
 import {getFilmes} from './Home';
 import Footer from "../layout/Footer";
 import { QueryClientProvider, QueryClient, useQuery } from "react-query";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-
-
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -23,6 +21,20 @@ const queryClient = new QueryClient({
 
 const Content = () => {
 
+    const [categories, setCategories] = useState<{ id: number, name: string }[]>([]);
+    const [selectedCategory, setSelectedCategory] = useState<any | string>('Todas as Categorias');
+
+    useEffect(() => {
+        fetch('http://localhost:8080/genre_ids')
+            .then(response => response.json())
+            .then(data => {
+                setCategories(data);
+            })
+            .catch(error => {
+                console.error('Erro ao buscar dados do servidor:', error);
+            });
+    }, []);
+
     const {
         isLoading,
         isError,
@@ -34,33 +46,33 @@ const Content = () => {
 
     const filmesData = {page, results, total_pages, total_results};
 
-    const [age, setAge] = React.useState('');
-
     const handleChange = (event: SelectChangeEvent) => {
-        setAge(event.target.value);
+        setSelectedCategory(event.target.value);
     };
 
-    console.log(filmesData);
     return (
         <main className="page-content filmes">
             <div className="container">
                 <div>
-                    <FormControl sx={{ m: 1, minWidth: 80 }}>
-                        <InputLabel id="demo-simple-select-autowidth-label">Age</InputLabel>
+                    <FormControl sx={{ m: 1, minWidth: 120 }}>
+                        <InputLabel className="wrapper-filters-filmes">Categorias</InputLabel>
                         <Select
-                            labelId="demo-simple-select-autowidth-label"
-                            id="demo-simple-select-autowidth"
-                            value={age}
+                            className="select-filter-filmes"
+                            value={selectedCategory}
                             onChange={handleChange}
                             autoWidth
-                            label="Age"
+                            label="Categorias"
                         >
-                            <MenuItem value="">
-                                <em>None</em>
+                            <MenuItem value="Todas as Categorias">
+                                <em>Todas as Categorias</em>
                             </MenuItem>
-                            <MenuItem value={10}>Twenty</MenuItem>
-                            <MenuItem value={21}>Twenty one</MenuItem>
-                            <MenuItem value={22}>Twenty one and a half</MenuItem>
+                            {categories.map((category, index) => {
+                                return (
+                                    <MenuItem value={category.id} key={index}>
+                                        {category.name}
+                                    </MenuItem>
+                                );
+                            })}
                         </Select>
                     </FormControl>
                 </div>
