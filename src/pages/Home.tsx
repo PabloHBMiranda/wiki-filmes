@@ -3,9 +3,11 @@ import Footer from "../layout/Footer";
 
 const Content = () => {
     return (
-        <div className="home-content">
-            teste
-        </div>
+        <main className="page-content home">
+            <div className="container">
+
+            </div>
+        </main>
     )
 };
 
