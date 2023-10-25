@@ -1,0 +1,30 @@
+footer {
+    padding: 25px 0 0;
+    border-top: var(--border);
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+
+        .logo {
+            font-size: 16px;
+            color: var(--color-text);
+            text-transform: uppercase;
+            cursor: pointer;
+
+            b {
+                color: var(--color-text-active);
+            }
+        }
+
+        .wrapper-bottom {
+            display: flex;
+            justify-content: space-between;
+            color: var(--color-text-secondary);
+            font-size: 12px;
+            padding: 15px 0;
+            border-top: var(--border);
+        }
+    }
+}

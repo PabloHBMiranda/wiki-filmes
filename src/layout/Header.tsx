@@ -8,7 +8,8 @@ interface HeaderProps {
 
 const menuItems = [
     {label: 'Início', path: '/', name: 'home'},
-    {label: 'Filmes', path: '/filmes', name: 'filmes'}
+    {label: 'Filmes', path: '/filmes', name: 'filmes'},
+    {label: 'Contato', path: '/contato', name: 'contato'},
 ];
 
 const Header = ({activePage}: HeaderProps) => {
