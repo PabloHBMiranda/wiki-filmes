@@ -1,0 +1,48 @@
+{
+    "genre_ids": [
+        {
+            "id": 12,
+            "name": "Aventura"
+        },
+        {
+            "id": 16,
+            "name": "Animação"
+        },
+        {
+            "id": 18,
+            "name": "Drama"
+        },
+        {
+            "id": 27,
+            "name": "Ficção"
+        },
+        {
+            "id": 28,
+            "name": "Ação"
+        },
+        {
+            "id": 53,
+            "name": "Suspense"
+        },
+        {
+            "id": 80,
+            "name": "Crime"
+        },
+        {
+            "id": 99,
+            "name": "Esporte"
+        },
+        {
+            "id": 878,
+            "name": "Mistério"
+        },
+        {
+            "id": 9648,
+            "name": "Terror Sobrenatural"
+        },
+        {
+            "id": 10751,
+            "name": "Infantil"
+        }
+    ]
+}
