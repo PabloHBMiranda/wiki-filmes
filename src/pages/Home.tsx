@@ -15,7 +15,7 @@ const queryClient = new QueryClient({
     },
 });
 
-const getFilmes = () => {
+export const getFilmes = () => {
     return axios.get('https://api.themoviedb.org/3/movie/popular?language=pt-BR&page=1', {
         headers: {
             accept: 'application/json',
