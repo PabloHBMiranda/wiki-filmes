@@ -1,5 +1,5 @@
 import Header from "../layout/Header";
-import {getFilmes} from './Home';
+import {getPopularFilmes} from './Home';
 import Footer from "../layout/Footer";
 import {QueryClientProvider, QueryClient, useQuery} from "react-query";
 import React, {useEffect, useState} from "react";
@@ -50,12 +50,10 @@ const Content = () => {
     }, []);
 
     const {
-        isLoading,
-        isError,
         data: {page, results, total_pages, total_results} = {},
     } = useQuery({
         queryKey: [],
-        queryFn: () => getFilmes(),
+        queryFn: () => getPopularFilmes(),
     });
 
     const filmesData = {page, results, total_pages, total_results};
