@@ -1,6 +1,8 @@
 @use './styles/header';
 @use './styles/footer';
 @use './styles/home';
+@use './styles/filmes';
+@use './styles/content-item';
 
 :root {
     --color-background: #101418;
@@ -10,6 +12,7 @@
     --color-text-active: #66B2FF;
     --color-text-hover: #7B91A7;
     --border: 1px solid rgba(218, 224, 231, 0.08);
+    --border-radius: 6px;
 }
 
 body {
