@@ -1,0 +1,23 @@
+.page-content.filmes {
+    display: flex;
+    width: 100%;
+
+    .container {
+
+        .wrapper-content {
+            display: flex;
+            width: 100%;
+            flex-direction: column;
+            gap: 20px;
+
+            .wrapper-filters-filmes {
+                display: flex;
+                flex-direction: column;
+                background: white;
+                padding-top: 1px;
+                border-radius: var(--border-radius);
+            }
+        }
+
+    }
+}
