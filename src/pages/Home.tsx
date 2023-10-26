@@ -1,8 +1,11 @@
 import axios from 'axios';
 import {useQuery, QueryClient, QueryClientProvider} from 'react-query';
+import {Swiper, SwiperSlide} from 'swiper/react';
 
 import Header from "../layout/Header";
 import Footer from "../layout/Footer";
+
+import 'swiper/css';
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -39,10 +42,39 @@ const Content = () => {
         queryFn: () => getFilmes(),
     });
 
+
     return (
         <main className="page-content home">
             <div className="container">
-
+                <section className="section-most-popular">
+                    <div className="section-title">
+                        <h2 className="section-title__text">Mais populares</h2>
+                    </div>
+                    {results?.length > 0 && (
+                        <Swiper
+                            spaceBetween={15}
+                            slidesPerView={3}
+                            autoplay={true}
+                        >
+                            {results?.map((filme: any) => {
+                                return (
+                                    <SwiperSlide className="swiper-slide" key={filme.id}>
+                                        <div className="card">
+                                            <img
+                                                src={`https://image.tmdb.org/t/p/w500${filme.poster_path}`}
+                                                alt={filme.title}
+                                            />
+                                            <div className="card__content">
+                                                <h3 className="card__title">{filme.title}</h3>
+                                                <p className="card__description">{filme.overview}</p>
+                                            </div>
+                                        </div>
+                                    </SwiperSlide>
+                                )
+                            })}
+                        </Swiper>
+                    )}
+                </section>
             </div>
         </main>
     )
