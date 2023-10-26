@@ -86,6 +86,7 @@ const Content = () => {
         <main className="page-content filmes">
             <div className="container">
                 <div className="wrapper-content">
+                    <h1>Filmes em Cartaz</h1>
                     <div className="wrapper-filters-filmes">
                         <FormControl className="form" sx={{m: 1, minWidth: 120}}>
                             <InputLabel className="wrapper-filters-filmes">Categorias</InputLabel>
@@ -112,16 +113,18 @@ const Content = () => {
                     <Box sx={{width: '100%'}}>
                         <Stack spacing={2}>
                             {filteredResults && filteredResults.length > 0 ? (
-                                filteredResults.map((result, index) => (
-                                    <Item key={index}>
+                                <div className="item-content">
+                                    {filteredResults.map((result, index) => {
+                                        return (
                                         <ContentItem
                                             titleFilme={result.title}
                                             posterPath={result.poster_path}
                                             date={result.release_date}
                                             description={result.overview}
+                                            key={index}
                                         />
-                                    </Item>
-                                ))
+                                    )})}
+                                </div>
                             ) : (
                                 <Item>
                                     <p>Nenhum resultado encontrado.</p>
