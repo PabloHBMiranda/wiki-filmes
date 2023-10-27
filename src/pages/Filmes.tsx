@@ -1,26 +1,11 @@
 import Header from "../layout/Header";
 import {getPopularFilmes} from './Home';
 import Footer from "../layout/Footer";
-import {QueryClientProvider, QueryClient, useQuery} from "react-query";
+import {QueryClient, QueryClientProvider, useQuery} from "react-query";
 import React, {useEffect, useState} from "react";
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, {SelectChangeEvent} from '@mui/material/Select';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Paper from '@mui/material/Paper';
-import {styled} from '@mui/material/styles';
-import ContentItem from "../components/ContentItem";
-// import ContentItem from "../components/ContentItem";
 
-const Item = styled(Paper)(({theme}) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: '20px',
-    textAlign: 'center',
-    color: '#828588'
-}));
+import {Box, FormControl, InputLabel, MenuItem, Select, Skeleton, Stack, Pagination} from '@mui/material';
+import ContentItem from "../components/ContentItem";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -36,7 +21,10 @@ const queryClient = new QueryClient({
 const Content = () => {
 
     const [categories, setCategories] = useState<{ id: number, name: string }[]>([]);
-    const [selectedCategory, setSelectedCategory] = useState<any | string>('0');
+    const [selectedCategory, setSelectedCategory] = useState<any | string>(0);
+    const [actualPage, setActualPage] = useState(1)
+    const [movies, setMovies] = useState<any[]>([]);
+    const [totalPages, setTotalPages] = useState(0);
 
     useEffect(() => {
         fetch('http://localhost:8080/genre_ids')
@@ -50,52 +38,58 @@ const Content = () => {
     }, []);
 
     const {
+        isLoading,
         data: {page, results, total_pages, total_results} = {},
     } = useQuery({
-        queryKey: [],
-        queryFn: () => getPopularFilmes(),
+        queryKey: ['popular-movies', actualPage],
+        queryFn: () => getPopularFilmes(actualPage),
+        onSuccess: (data) => {
+            setTotalPages(data.total_pages);
+        }
     });
 
-    const filmesData = {page, results, total_pages, total_results};
-
-    const [filteredResults, setFilteredResults] = useState<{
-        title?: string,
-        poster_path?: string,
-        release_date?: string,
-        overview?: string,
-        vote_average?: number
-    }[]>([]);
-
     useEffect(() => {
-        var filters = filmesData.results;
-
-        if (selectedCategory !== '0') {
-            filters = filters.filter((result: { genre_ids: number[] }) => {
-                return result.genre_ids.some(genreId => genreId === selectedCategory);
-            });
+        if (results && Array.isArray(results)) {
+            setMovies(results);
         }
-        setFilteredResults(filters);
-    }, [selectedCategory]);
+    }, [results])
 
+    const handleSelectCategory = (categoryId: any) => {
+        setSelectedCategory(categoryId);
 
-    const handleChange = (event: SelectChangeEvent) => {
-        setSelectedCategory(event.target.value);
-    };
+        if (categoryId === 0) {
+            setMovies(results);
+            return;
+        }
+
+        const newMovies = results?.filter((movie: any) => {
+            return movie.genre_ids.includes(categoryId);
+        });
+
+        setMovies(newMovies);
+    }
+
+    const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
+        setActualPage(value);
+    }
 
     return (
         <main className="page-content filmes">
             <div className="container">
                 <div className="wrapper-content">
-                    <h1>Filmes em Cartaz</h1>
+                    <h1>Filmes Populares</h1>
                     <div className="wrapper-filters-filmes">
                         <FormControl className="form" sx={{m: 1, minWidth: 120}}>
                             <InputLabel className="wrapper-filters-filmes">Categorias</InputLabel>
                             <Select
                                 className="select-filter-filmes"
                                 value={selectedCategory}
-                                onChange={handleChange}
-                                autoWidth
+                                onChange={(e) => handleSelectCategory(parseInt(e.target.value))}
                                 label="Categorias"
+                                sx={{
+                                    color: 'white',
+                                    borderColor: 'white'
+                                }}
                             >
                                 <MenuItem value="0">
                                     <em>Todas as Categorias</em>
@@ -109,27 +103,56 @@ const Content = () => {
                                 })}
                             </Select>
                         </FormControl>
+                        {totalPages !== 0 && (
+                            <Pagination count={totalPages} page={actualPage} onChange={handleChangePage}
+                                        variant="outlined" shape="rounded"/>)}
                     </div>
                     <Box sx={{width: '100%'}}>
                         <Stack spacing={2}>
-                            {filteredResults && filteredResults.length > 0 ? (
-                                <div className="item-content">
-                                    {filteredResults.map((result, index) => {
-                                        return (
-                                        <ContentItem
-                                            titleFilme={result.title}
-                                            posterPath={result.poster_path}
-                                            date={result.release_date}
-                                            description={result.overview}
-                                            key={index}
-                                        />
-                                    )})}
-                                </div>
-                            ) : (
-                                <Item>
-                                    <p>Nenhum resultado encontrado.</p>
-                                </Item>
-                            )}
+                            <div className="item-content">
+                                {isLoading && (
+                                    <>
+                                        <Skeleton animation="wave" className="card" variant="rounded" height={400}/>
+                                        <Skeleton animation="wave" className="card" variant="rounded" height={400}/>
+                                        <Skeleton animation="wave" className="card" variant="rounded" height={400}/>
+                                        <Skeleton animation="wave" className="card" variant="rounded" height={400}/>
+                                        <Skeleton animation="wave" className="card" variant="rounded" height={400}/>
+                                        <Skeleton animation="wave" className="card" variant="rounded" height={400}/>
+                                        <Skeleton animation="wave" className="card" variant="rounded" height={400}/>
+                                        <Skeleton animation="wave" className="card" variant="rounded" height={400}/>
+                                        <Skeleton animation="wave" className="card" variant="rounded" height={400}/>
+                                        <Skeleton animation="wave" className="card" variant="rounded" height={400}/>
+                                        <Skeleton animation="wave" className="card" variant="rounded" height={400}/>
+                                        <Skeleton animation="wave" className="card" variant="rounded" height={400}/>
+                                        <Skeleton animation="wave" className="card" variant="rounded" height={400}/>
+                                        <Skeleton animation="wave" className="card" variant="rounded" height={400}/>
+                                        <Skeleton animation="wave" className="card" variant="rounded" height={400}/>
+                                        <Skeleton animation="wave" className="card" variant="rounded" height={400}/>
+                                        <Skeleton animation="wave" className="card" variant="rounded" height={400}/>
+                                        <Skeleton animation="wave" className="card" variant="rounded" height={400}/>
+                                        <Skeleton animation="wave" className="card" variant="rounded" height={400}/>
+                                        <Skeleton animation="wave" className="card" variant="rounded" height={400}/>
+                                    </>
+                                )}
+                                {movies?.length > 0 ? (
+                                    <>
+                                        {movies?.map((movie: any, index: any) => {
+                                            return (
+                                                <ContentItem
+                                                    titleFilme={movie?.title}
+                                                    posterPath={movie?.poster_path}
+                                                    description={movie?.overview}
+                                                    key={movie.id}
+                                                />
+                                            )
+                                        })}
+                                    </>
+                                ) : (
+                                    <>
+                                        <h3 style={{color: 'white'}}>Nenhum filme encontrado.</h3>
+                                    </>
+                                )}
+                            </div>
                         </Stack>
                     </Box>
                 </div>

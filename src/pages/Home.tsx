@@ -22,8 +22,8 @@ const queryClient = new QueryClient({
     },
 });
 
-export const getPopularFilmes = () => {
-    return axios.get('https://api.themoviedb.org/3/movie/popular?language=pt-BR&page=1', {
+export const getPopularFilmes = (page = 1) => {
+    return axios.get(`https://api.themoviedb.org/3/movie/popular?language=pt-BR&page=${page}`, {
         headers: {
             accept: 'application/json',
             Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlMWY4M2NkY2Q1YmE3ODYwNjEyMDRiYzA3NTgwOTY1ZSIsInN1YiI6IjY1Mzg1OWFlYzUwYWQyMDBlYjJlMWZmZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ZPqxryArPsqtH8wkAtsVg_IUoh_0dltnSTeE_P6FrtQ'

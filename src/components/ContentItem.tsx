@@ -17,11 +17,11 @@ const ContentItem = ({titleFilme, posterPath, date, description}: {
     return (
         <main className="component-content content-item">
             <div className="container">
-                <img src={'https://image.tmdb.org/t/p/original' + posterPath}></img>
+                <img src={'https://image.tmdb.org/t/p/w500' + posterPath}></img>
                 <div className="wrapper-content-item">
                     <h2>{titleFilme}</h2>
-                    <p><span className="date">Lançamento: {date}</span></p>
                     <p><span className="description">{description}</span></p>
+                    <p><span className="date">Lançamento: {date}</span></p>
                 </div>
             </div>
         </main>

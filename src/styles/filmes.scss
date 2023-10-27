@@ -3,7 +3,6 @@
     width: 100%;
 
     .container {
-
         .wrapper-content {
             display: flex;
             width: 100%;
@@ -12,12 +11,49 @@
 
             .wrapper-filters-filmes {
                 display: flex;
-                flex-direction: column;
-                background: white;
+                align-items: center;
+                justify-content: space-between;
                 padding-top: 1px;
                 border-radius: var(--border-radius);
+
+                .MuiFormControl-root {
+                    width: 260px;
+                    margin: 0;
+
+                    .MuiFormLabel-root {
+                        color: var(--color-text);
+                    }
+
+                    fieldset {
+                        border-color: var(--color-text);
+                    }
+
+                    .MuiSvgIcon-root {
+                        color: var(--color-text);
+                    }
+                }
+
+                .MuiPagination-root {
+                    li .MuiPaginationItem-root {
+                        color: var(--color-text);
+                    }
+
+                    button {
+                        color: var(--color-text);
+                        border-color: var(--color-text);
+
+                        &[aria-current="true"] {
+                            color: var(--color-text-active);
+                            border-color: var(--color-text-active);
+                        }
+
+                        &:hover:not([aria-current="true"]) {
+                            color: var(--color-text-hover);
+                            border-color: var(--color-text-hover);
+                        }
+                    }
+                }
             }
         }
-
     }
 }
