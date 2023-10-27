@@ -5,7 +5,6 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom';
 // Pages
 import Home from './pages/Home';
 import Filmes from "./pages/Filmes";
-import Contato from "./pages/Contato";
 
 // Styles
 import './App.scss'
@@ -21,10 +20,6 @@ function App() {
                 <Route
                     path='/filmes'
                     element={<Filmes/>}
-                />
-                <Route
-                    path='/contato'
-                    element={<Contato/>}
                 />
             </Routes>
         </BrowserRouter>
