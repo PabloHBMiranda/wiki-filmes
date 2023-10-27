@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {useQuery, QueryClient, QueryClientProvider} from 'react-query';
 import {Swiper, SwiperSlide} from 'swiper/react';
-import {Navigation, Autoplay, Grid} from 'swiper/modules';
+import {Navigation, Pagination, Autoplay, Grid} from 'swiper/modules';
 import {Card, CardMedia, CardContent, Typography, Chip, Skeleton} from "@mui/material";
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
 
@@ -214,16 +214,6 @@ const Content = () => {
                         <Skeleton animation="wave" className="card" variant="rounded" height={290}/>
                         <Skeleton animation="wave" className="card" variant="rounded" height={290}/>
                         <Skeleton animation="wave" className="card" variant="rounded" height={290}/>
-                        <Skeleton animation="wave" className="card" variant="rounded" height={290}/>
-                        <Skeleton animation="wave" className="card" variant="rounded" height={290}/>
-                        <Skeleton animation="wave" className="card" variant="rounded" height={290}/>
-                        <Skeleton animation="wave" className="card" variant="rounded" height={290}/>
-                        <Skeleton animation="wave" className="card" variant="rounded" height={290}/>
-                        <Skeleton animation="wave" className="card" variant="rounded" height={290}/>
-                        <Skeleton animation="wave" className="card" variant="rounded" height={290}/>
-                        <Skeleton animation="wave" className="card" variant="rounded" height={290}/>
-                        <Skeleton animation="wave" className="card" variant="rounded" height={290}/>
-                        <Skeleton animation="wave" className="card" variant="rounded" height={290}/>
                     </div>)}
 
                     {upcoming?.length > 0 && (
@@ -239,8 +229,8 @@ const Content = () => {
                                 disableOnInteraction: false,
                             }}
                             loop={true}
-                            navigation={true}
-                            modules={[Navigation, Autoplay, Grid]}
+                            pagination={true}
+                            modules={[Pagination, Autoplay, Grid]}
                         >
                             {upcoming?.map((filme: any) => {
                                 return (
