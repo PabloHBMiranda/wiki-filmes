@@ -2,7 +2,7 @@ import axios from 'axios';
 import {useQuery, QueryClient, QueryClientProvider} from 'react-query';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import {Navigation, Autoplay} from 'swiper/modules';
-import {Card, CardMedia, CardContent, Typography, Chip} from "@mui/material";
+import {Card, CardMedia, CardContent, Typography, Chip, Skeleton} from "@mui/material";
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
 
 import Header from "../layout/Header";
@@ -55,6 +55,7 @@ export const getTopRatedFilmes = () => {
 
 const Content = () => {
     const {
+        isLoading,
         data: {results} = {},
     } = useQuery({
         queryKey: ['popular'],
@@ -62,6 +63,7 @@ const Content = () => {
     });
 
     const {
+        isLoading: isLoadingTopRated,
         data: {results: topRated} = {},
     } = useQuery({
         queryKey: ['topRated'],
@@ -75,6 +77,13 @@ const Content = () => {
                     <div className="section-title">
                         <h2 className="section-title__text">Mais populares</h2>
                     </div>
+
+                    {isLoading && (<div className="wrapper-loader">
+                        <Skeleton animation="wave" variant="rounded" height={550} />
+                        <Skeleton animation="wave" variant="rounded" height={550} />
+                        <Skeleton animation="wave" variant="rounded" height={550} />
+                    </div>)}
+
                     {results?.length > 0 && (
                         <Swiper
                             spaceBetween={15}
@@ -110,6 +119,22 @@ const Content = () => {
                     <div className="section-title">
                         <h2 className="section-title__text">Mais bem avaliados</h2>
                     </div>
+
+                    {isLoadingTopRated && (<div className="wrapper-movies">
+                        <Skeleton animation="wave" className="card" variant="rounded" height={290} />
+                        <Skeleton animation="wave" className="card" variant="rounded" height={290} />
+                        <Skeleton animation="wave" className="card" variant="rounded" height={290} />
+                        <Skeleton animation="wave" className="card" variant="rounded" height={290} />
+                        <Skeleton animation="wave" className="card" variant="rounded" height={290} />
+                        <Skeleton animation="wave" className="card" variant="rounded" height={290} />
+                        <Skeleton animation="wave" className="card" variant="rounded" height={290} />
+                        <Skeleton animation="wave" className="card" variant="rounded" height={290} />
+                        <Skeleton animation="wave" className="card" variant="rounded" height={290} />
+                        <Skeleton animation="wave" className="card" variant="rounded" height={290} />
+                        <Skeleton animation="wave" className="card" variant="rounded" height={290} />
+                        <Skeleton animation="wave" className="card" variant="rounded" height={290} />
+                    </div>)}
+
                     {topRated?.length > 0 && (
                         <div className="wrapper-movies">
                             {topRated?.map((filme: any) => {
