@@ -3,6 +3,7 @@ import {getPopularFilmes} from './Home';
 import Footer from "../layout/Footer";
 import {QueryClient, QueryClientProvider, useQuery} from "react-query";
 import React, {useEffect, useState} from "react";
+import {useSearchParams} from "react-router-dom";
 
 import {Box, FormControl, InputLabel, MenuItem, Select, Skeleton, Stack, Pagination} from '@mui/material';
 import ContentItem from "../components/ContentItem";
@@ -19,12 +20,13 @@ const queryClient = new QueryClient({
 });
 
 const Content = () => {
-
     const [categories, setCategories] = useState<{ id: number, name: string }[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<any | string>(0);
     const [actualPage, setActualPage] = useState(1)
     const [movies, setMovies] = useState<any[]>([]);
     const [totalPages, setTotalPages] = useState(0);
+
+    const [searchParams, setSearchParams] = useSearchParams();
 
     useEffect(() => {
         fetch('http://localhost:8080/genre_ids')
@@ -59,6 +61,7 @@ const Content = () => {
 
         if (categoryId === 0) {
             setMovies(results);
+            searchParams.delete('category');
             return;
         }
 
@@ -67,11 +70,35 @@ const Content = () => {
         });
 
         setMovies(newMovies);
+        searchParams.set('category', categoryId);
+        setSearchParams(searchParams);
     }
 
     const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
         setActualPage(value);
+
+        if (value === 1) {
+            searchParams.delete('pg');
+        } else {
+            searchParams.set('pg', String(value));
+            setSearchParams(searchParams);
+        }
     }
+
+    useEffect(() => {
+        if (searchParams.get('pg')) {
+            if (parseInt(searchParams.get('pg') ?? '1') < 2) {
+                searchParams.delete('pg');
+                setSearchParams(searchParams);
+            } else {
+                setActualPage(parseInt(searchParams.get('pg') ?? '0'));
+            }
+        }
+
+        if (searchParams.get('category')) {
+            setSelectedCategory(parseInt(searchParams.get('category') ?? '0'))
+        }
+    }, []);
 
     return (
         <main className="page-content filmes">
